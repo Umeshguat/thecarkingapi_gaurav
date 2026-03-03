@@ -22,7 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (AuthenticationException $e, Request $request) {
             if ($request->is('api/*') || $request->expectsJson()) {
                 return response()->json([
-                    'success' => false,
+                    'status' => 401,
                     'message' => 'Unauthenticated. Please provide a valid token.',
                 ], 401);
             }
@@ -30,7 +30,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $exceptions->render(function (NotFoundHttpException $e, Request $request) {
             return response()->json([
-                'success' => false,
+                'status' => 404,
                 'message' => 'The requested resource was not found.',
             ], 404);
         });
@@ -38,7 +38,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (MethodNotAllowedHttpException $e, Request $request) {
             if ($request->is('api/*') || $request->expectsJson()) {
                 return response()->json([
-                    'success' => false,
+                    'status' => 405,
                     'message' => 'The HTTP method is not allowed for this route.',
                 ], 405);
             }
